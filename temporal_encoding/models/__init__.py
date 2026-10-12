@@ -1,6 +1,6 @@
 from .classic import ClassicTransformer
 from .elasticnet import train_and_evaluate_elasticnet
-from .rtpe import ProposedTransformer
+from .RTPE import ProposedTransformer
 from .shortformer import Shortformer
 from .spacetimeformer import Spacetimeformer
 from .spe import SPETransformer
