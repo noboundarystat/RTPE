@@ -1,0 +1,6 @@
+torch>=2.1
+numpy
+pandas
+scipy
+scikit-learn
+pytest   # only needed to run tests/
