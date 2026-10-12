@@ -3,7 +3,7 @@
 For every repetition (seed = run index):
   1. simulate covariates, outcome and missingness masks;
   2. drop subjects whose outcome is missing;
-  3. split subjects 40/30/30 into train/validation/test (identical for all models and rates);
+  3. split subjects 60/20/20 into train/validation/test (identical for all models and rates);
   4. standardize Y with training statistics;
   5. for each X-missing rate: refit feature scalers on observed training values, then train every
      model from scratch and record test MSE.
@@ -160,7 +160,7 @@ def _simulate_run(run, T, N, M, missing_mechanism, rates, missing_rate_y, transf
         }
 
     all_idx = list(range(len(df_wide)))
-    train_idx, temp_idx = train_test_split(all_idx, test_size=0.60, random_state=run)
+    train_idx, temp_idx = train_test_split(all_idx, test_size=0.40, random_state=run)
     val_idx, test_idx = train_test_split(temp_idx, test_size=0.5, random_state=run)
 
     y_scaler = StandardScaler().fit(df_wide.iloc[train_idx]["Y"].to_numpy().reshape(-1, 1))
