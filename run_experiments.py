@@ -4,7 +4,7 @@ Examples
 --------
     python run_experiments.py                                   # complete data + 3 missingness mechanisms
     python run_experiments.py --experiments MNAR --n-runs 10    # a single mechanism
-    python run_experiments.py --models Proposed Classic --M 50  # subset of models, smaller problem
+    python run_experiments.py --models RTPE Classic --M 50  # subset of models, smaller problem
 
 Results go to ``<out-dir>/<experiment>/``: per-run MSE tables, ``summary.json`` (updated after every
 repetition) and ``checkpoints.txt`` (mean/std appended every ``--checkpoint-every`` repetitions).
@@ -23,7 +23,7 @@ EXPERIMENTS = {
     "MNAR": "MNAR: P(missing | the unobserved value itself).",
 }
 
-DEFAULT_MODELS = ["Proposed", "Classic", "Shortformer", "SPE", "Spacetimeformer", "ElasticNet"]
+DEFAULT_MODELS = ["RTPE", "Classic", "Shortformer", "SPE", "Spacetimeformer", "ElasticNet"]
 DEFAULT_EXPERIMENTS = ["complete", "MAR_causal", "MAR_noncausal", "MNAR"]
 
 
