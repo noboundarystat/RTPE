@@ -1,6 +1,6 @@
-# Temporal encoding for transformers on longitudinal data with missingness
+# Real Time Positional Encoding (RTPE) for transformers on longitudinal data with missingness
 
-Simulation study comparing a transformer that encodes the **real (continuous) measurement time** with a
+Simulation study comparing RTPE that encodes the **real (continuous) measurement time** with a
 regular transformer (visit-index positional encoding), Shortformer, SPE, Spacetimeformer and an ElasticNet
 baseline. The task is to predict a scalar outcome from irregularly spaced longitudinal covariates when
 covariate values are missing under MAR (causal / non-causal covariates) or MNAR mechanisms at increasing
@@ -20,7 +20,7 @@ value -> embedding (+ time / position information)
 
 | Name in code | File | Time / position handling |
 |---|---|---|
-| `Proposed` | `models/proposed.py` | Sinusoidal encoding of the **real measurement time**, added at observed visits only |
+| `RTPE` | `models/RTPE.py` | Sinusoidal encoding of the **real measurement time**, at observed visits only |
 | `Classic` | `models/classic.py` | Standard sinusoidal encoding of the **visit index** |
 | `Shortformer` | `models/shortformer.py` | Position-infused attention: positions enter Q and K of every layer (Press et al., 2021) |
 | `SPE` | `models/spe.py` | Stochastic positional encoding, sine variant with gating (Liutkus et al., 2021) |
@@ -109,21 +109,7 @@ temporal_encoding/
   models/                   shared skeleton + one file per model
 tests/                      smoke tests
 scripts/                    example cluster job script
-results/                    preliminary results (complete data, 30 repetitions)
 ```
-
-## Implementation notes
-
-* The per-feature loop is vectorised by folding the feature axis into the batch axis; this is exactly
-  equivalent to looping over features because attention never mixes across the batch axis.
-* The regression head has no output activation. An earlier version ended in a GELU, which cannot output
-  values much below -0.17 and so is unsuitable for standardized targets.
-* A (subject, feature) trajectory with no observed visit would give an all-masked attention row (NaN); such
-  rows fall back to the valid visits inside the encoder and their pooled output is set to zero.
-* SPE draws new random realizations on every forward pass, including at evaluation, so its predictions are
-  stochastic by design.
-* Runs are seeded and use deterministic PyTorch algorithms; results are reproducible on the same
-  software/hardware.
 
 ## References
 
